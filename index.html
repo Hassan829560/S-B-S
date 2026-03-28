@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salama Booking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <header class="bg-white/80 backdrop-blur sticky top-0 z-50 shadow-sm">
+      <div class="mx-auto flex max-w-7xl items-center justify-between p-4 md:p-6">
+        <a href="index.html" class="text-xl font-bold tracking-wide text-sky-700">Salama</a>
+        <button id="nav-toggle" class="inline-flex md:hidden items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500" aria-expanded="false" aria-label="Toggle navigation">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" /></svg>
+        </button>
+        <nav id="nav-menu" class="hidden w-full md:flex md:w-auto">
+          <ul class="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+            <li id="nav-public"><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="login.html">Login</a></li>
+            <li id="nav-public"><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="register.html">Register</a></li>
+            <li id="nav-admin" class="hidden"><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="admin-dashboard.html">Admin</a></li>
+            <li id="nav-customer" class="hidden"><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="customer-dashboard.html">Customer Dashboard</a></li>
+            <li id="nav-provider" class="hidden"><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="provider-dashboard.html">Provider Dashboard</a></li>
+            <li id="nav-auth" class="hidden"><span class="rounded-md px-3 py-2 text-sm font-medium text-slate-700" id="user-display"></span></li>
+            <li id="nav-auth" class="hidden"><button id="logout-btn" class="rounded-md px-3 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700">Logout</button></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="mx-auto max-w-5xl p-4 md:p-6">
+      <div class="mb-6 text-center">
+        <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Salama Booking System</h1>
+        <p class="mt-2 text-slate-600">Book routes, manage users, and track trips in one dashboard.</p>
+      </div>
+      
+      <section id="routes" class="mb-8">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-4">Available Routes</h2>
+        
+        <!-- Search & Filter -->
+        <div id="search-section" class="bg-white p-4 rounded-lg shadow-sm mb-4 grid gap-3 sm:grid-cols-4">
+          <div>
+            <label for="search-start" class="block text-sm font-medium text-slate-700 mb-1">From</label>
+            <input type="text" id="search-start" placeholder="Start location" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200">
+          </div>
+          <div>
+            <label for="search-end" class="block text-sm font-medium text-slate-700 mb-1">To</label>
+            <input type="text" id="search-end" placeholder="End location" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200">
+          </div>
+          <div>
+            <label for="search-price" class="block text-sm font-medium text-slate-700 mb-1">Max Price (KES)</label>
+            <input type="number" id="search-price" placeholder="e.g., 2000" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">&nbsp;</label>
+            <button onclick="filterRoutes()" class="w-full rounded-md bg-sky-600 px-3 py-2 text-sm text-white font-semibold hover:bg-sky-700">Search</button>
+          </div>
+        </div>
+        
+        <div id="routes-list" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </section>
+
+      <section id="booking" class="mb-8 bg-white p-6 rounded-xl shadow-sm">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-4">Book a Route</h2>
+        <form id="booking-form" class="grid gap-4">
+          <div>
+            <label for="route-select" class="block text-sm font-medium text-slate-700">Select Route</label>
+            <select id="route-select" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50">
+              <option value="">Choose a route</option>
+            </select>
+          </div>
+          <div>
+            <label for="seats" class="block text-sm font-medium text-slate-700">Number of Seats</label>
+            <input id="seats" type="number" min="1" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50">
+          </div>
+          <button type="submit" class="rounded-md bg-sky-600 px-4 py-2 text-white font-semibold hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2">Book Now</button>
+        </form>
+      </section>
+
+      <section id="bookings" class="mb-8">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-3">Your Bookings</h2>
+        <div id="bookings-list" class="space-y-3"></div>
+      </section>
+    </main>
+    
+    <script src="authUtils.js"></script>
+    <script>
+      // Hamburger menu toggle
+      const navToggle = document.getElementById('nav-toggle');
+      const navMenu = document.getElementById('nav-menu');
+
+      navToggle.addEventListener('click', () => {
+        const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!isExpanded));
+        navMenu.classList.toggle('hidden');
+      });
+
+      // Update navbar with role-based visibility
+      updateRoleBaseNavbar();
+
+      // Setup logout button
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+      }
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Salama Booking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50">
+    <header class="bg-white/80 backdrop-blur sticky top-0 z-50 shadow-sm">
+      <div class="mx-auto flex max-w-7xl items-center justify-between p-4 md:p-6">
+        <a href="index.html" class="text-xl font-bold tracking-wide text-sky-700">Salama</a>
+        <nav id="nav-menu" class="hidden w-full md:flex md:w-auto">
+          <ul class="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+            <li><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="index.html">Home</a></li>
+            <li><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="#routes">Routes</a></li>
+            <li><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="#users">Users</a></li>
+            <li><a class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700" href="#bookings">Bookings</a></li>
+            <li><span class="rounded-md px-3 py-2 text-sm font-medium text-slate-700" id="user-display"></span></li>
+            <li><button id="logout-btn" class="rounded-md px-3 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700">Logout</button></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <main class="mx-auto max-w-6xl p-4 md:p-6">
+        <h1 class="text-3xl font-bold text-slate-900 mb-6">Admin Dashboard</h1>
+        <div id="booking-stats" class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4"></div>
+        <!-- Tabs -->
+        <div class="mb-6 border-b border-slate-200">
+            <div class="flex gap-4">
+                <button data-tab="users" class="border-b-2 border-sky-500 px-4 py-2 text-sm font-medium text-sky-600 hover:text-sky-700">Users</button>
+                <button data-tab="routes" class="border-b-2 border-transparent px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-700">Routes</button>
+                <button data-tab="bookings" class="border-b-2 border-transparent px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-700">Bookings</button>
+            </div>
+        </div>
+        
+        <!-- Users Tab -->
+        <section data-tab-content="users" class="mb-8">
+            <h2 class="text-2xl font-semibold text-slate-900 mb-4">All Users</h2>
+            <div id="users-list" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </section>
+        
+        <!-- Routes Tab -->
+        <section data-tab-content="routes" class="hidden mb-8">
+            <h2 class="text-2xl font-semibold text-slate-900 mb-4">All Routes</h2>
+            <div id="routes-list" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </section>
+        
+        <!-- Bookings Tab -->
+        <section data-tab-content="bookings" class="hidden mb-8">
+            <h2 class="text-2xl font-semibold text-slate-900 mb-4">All Bookings</h2>
+            <div id="bookings-list" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </section>
+    </main>
+    
+    <script src="authUtils.js"></script>
+    <script>
+        // Protect page: require admin role
+        if (!requireRole('admin')) {
+            // Will redirect to index.html
+        }
+    </script>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>
